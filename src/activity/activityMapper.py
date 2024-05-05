@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv("../Dataset/hackupc-travelperk-dataset-extended.csv")
+df = pd.read_csv("src//Dataset/hackupc-travelperk-dataset-extended.csv")
 
 df = df.assign(Activities=df['Activities'].str.split(', ')).explode('Activities')
 

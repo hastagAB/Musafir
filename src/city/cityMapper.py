@@ -1,24 +1,24 @@
 import json
-import pandas as pd
+import pycountry
 
-# Load the dataset from CSV file
-df = pd.read_csv("../Dataset/hackupc-travelperk-dataset-extended.csv")
-
-# Load the country-city mapping from JSON file
-with open("countries.json", "r") as file:
-    country_city_mapping = json.load(file)
-
-# Function to find the country for a given city
-def find_country(city):
+def find_country(city_name):
+    # Load the country-city mapping from JSON file
+    with open("src/city/countries.json", "r") as file:
+        country_city_mapping = json.load(file)
+    
+    # Iterate through the mapping to find the country for the given city
     for country, cities in country_city_mapping.items():
-        if city in cities:
-            return country
-    return "Unknown"
+        if city_name in cities:
+            # Find the country code using pycountry
+            try:
+                country_code = pycountry.countries.lookup(country).alpha_2
+            except LookupError:
+                country_code = "Unknown"
+            return country, country_code
+    return "Unknown", "Unknown"
 
-# Create a new column 'Country Name' in the DataFrame
-df['Country Name'] = df['Arrival City'].apply(find_country)
-
-# Export the updated DataFrame to CSV
-df.to_csv('dataset_with_countries.csv', index=False)
-
-print("CSV file has been exported successfully.")
+# Sample usage:
+# city_name = "London"  # Replace with the desired city name
+# country_name, country_code = find_country(city_name)
+# print(f"The country for {city_name} is: {country_name}")
+# print(f"The country code for {country_name} is: {country_code}")
