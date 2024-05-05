@@ -12,7 +12,7 @@ from city.cityMapper import find_country
 
 def get_top_events_for_trip(trip_id, top_n=5):
     api_key = "6U1eANGQqQlLPnqfDbMG8Ilt6j8Bwlnk"
-    dataset_path = "src/Dataset/hackupc-travelperk-dataset-extended.csv"
+    dataset_path = "src/dataset/hackupc-travelperk-dataset-extended.csv"
     
     try:
         # Load dataset
@@ -41,7 +41,7 @@ def get_top_events_for_trip(trip_id, top_n=5):
                 
                 # Extract relevant information for each event
                 extracted_events = []
-                for index, event in enumerate(top_events_data, start=1):
+                for event in top_events_data:
                     event_info = {
                         'name': event['name'],
                         'type': event['type'],
@@ -49,19 +49,15 @@ def get_top_events_for_trip(trip_id, top_n=5):
                         'url': event['url']
                     }
                     extracted_events.append(event_info)
-                    print(f"{index}. {event['name']}")
-                    print(f"   Event Type: {event['type']}")
-                    print(f"   Price Ranges: {event.get('priceRanges', 'Not available')}")
-                    print(f"   Booking URL: {event['url']}\n")
                 
                 return extracted_events
             else:
                 print("No '_embedded' key found in data.")
                 return None
         else:
-            print(trip_id)
             print("Trip ID not found in the dataset.")
             return None
     except Exception as e:
         print("Error occurred:", e)
         return None
+

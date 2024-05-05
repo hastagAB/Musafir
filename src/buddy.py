@@ -2,7 +2,7 @@ import pandas as pd
 import json
 
 def buddyData(trip_id):
-    df = pd.read_csv("src/Dataset/hackupc-travelperk-dataset-extended.csv")
+    df = pd.read_csv("src/dataset/hackupc-travelperk-dataset-extended.csv")
     trip_data = df[df['Trip ID'] == trip_id]
     
     if trip_data.empty:
