@@ -34,24 +34,28 @@ def buddies(trip_id, content):
 def events(trip_id, content):
     json_data = get_top_events_for_trip(trip_id)
     content.append(Paragraph(f"<b>Top events for Trip ID {trip_id}:</b>", styles['Heading1']))
-    for event in json_data:
-        event_str = ""
-        if 'name' in event:
-            event_str += f"<b>Event Name:</b> {event['name']}<br/>"
-        if 'type' in event:
-            event_str += f"<b>Location:</b> {event['type']}<br/>"
-        if 'Price Range' in event:
-            event_str += f"<b>Date:</b> {event['price_ranges']}<br/>"
-        if 'URL' in event:
-            event_str += f"<b>Description:</b> {event['url']}<br/><br/>"
-        content.append(Paragraph(event_str, styles['Normal']))
-    print("Top events for Trip ID", trip_id, ":")
-    for event in json_data:
-        print("Event Name:", event.get('name', 'N/A'))
-        print("type:", event.get('type', 'N/A'))
-        print("Date:", event.get('price_ranges', 'N/A'))
-        print("Description:", event.get('url', 'N/A'))
-        print()
+    if json_data is not None:  # Check if json_data is not None
+        for event in json_data:
+            event_str = ""
+            if 'name' in event:
+                event_str += f"<b>Event Name:</b> {event['name']}<br/>"
+            if 'type' in event:
+                event_str += f"<b>Location:</b> {event['type']}<br/>"
+            if 'Price Range' in event:
+                event_str += f"<b>Date:</b> {event['price_ranges']}<br/>"
+            if 'URL' in event:
+                event_str += f"<b>Description:</b> {event['url']}<br/><br/>"
+            content.append(Paragraph(event_str, styles['Normal']))
+            print("Top events for Trip ID", trip_id, ":")
+            for event in json_data:
+                print("Event Name:", event.get('name', 'N/A'))
+                print("type:", event.get('type', 'N/A'))
+                print("Date:", event.get('price_ranges', 'N/A'))
+                print("Description:", event.get('url', 'N/A'))
+                print()
+    else:
+        content.append(Paragraph("No event information available", styles['Normal']))
+        print("No event information available")
 
 def flight(trip_id, content):
     top_flights = get_top_3_fastest_flights(trip_id)
