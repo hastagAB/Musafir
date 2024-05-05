@@ -25,11 +25,3 @@ def get_geo_id(city_name: str):
         print("Error:", e)
         return None
 
-# Example usage:
-# city_name = input("Enter the city name: ")
-# geo_id = get_geo_id(city_name)
-
-# if geo_id:
-#     print(f"The GeoID for {city_name} is: {geo_id}")
-# else:
-#     print("GeoID not found.")

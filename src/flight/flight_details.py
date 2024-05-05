@@ -3,14 +3,13 @@ import requests
 from datetime import datetime
 from tqdm import tqdm
 
-# Function to get the fastest flight using Skyscanner API
 def get_flight_details(departure_date):
     url = "https://sky-scanner3.p.rapidapi.com/flights/search-one-way"
 
     querystring = {
         "fromEntityId": "eyJlIjoiOTU1NjUwODUiLCJzIjoiQkNOIiwiaCI6IjI3NTQ4MjgzIn0=",
         "toEntityId": "eyJlIjoiOTU2NzM3NDQiLCJzIjoiTlVFIiwiaCI6IjI3NTQ1MTYyIn0=",
-        "departDate": departure_date.strftime('%Y-%m-%d')  # Convert date to YYYY-MM-DD format
+        "departDate": departure_date.strftime('%Y-%m-%d')  
     }
 
     headers = {
@@ -22,22 +21,17 @@ def get_flight_details(departure_date):
     data = response.json()
     return data
 
-# Function to get top 3 fastest flight details for a given trip ID
 def get_top_3_fastest_flights(trip_id):
-    # Read the CSV file containing trip details
     df = pd.read_csv("src/dataset/hackupc-travelperk-dataset-extended.csv")
 
-    # Find the row corresponding to the given trip ID
     trip_row = df[df['Trip ID'] == trip_id]
 
     if len(trip_row) == 0:
         return "Trip ID not found"
 
-    # Extract departure date from the trip row
     departure_date_str = trip_row['Departure Date'].values[0]
     departure_date = datetime.strptime(departure_date_str, '%d/%m/%Y')
 
-    # Get flight details for the departure date
     flight_details = get_flight_details(departure_date)
 
     if flight_details['data'] is None:
@@ -45,7 +39,6 @@ def get_top_3_fastest_flights(trip_id):
 
     data_list = flight_details['data']['itineraries']
 
-    # Sort flights by duration
     sorted_flights = sorted(data_list, key=lambda x: x['legs'][0]['durationInMinutes'])
 
     top_3_flights = []
@@ -62,18 +55,13 @@ def get_top_3_fastest_flights(trip_id):
         }
         top_3_flights.append(flight_info)
 
-        # Format output
     formatted_output = ""
     for i, flight in enumerate(top_3_flights):
         formatted_output += f"Flight {i+1}:\n"
         for key, value in flight.items():
             formatted_output += f"{key}: {value}\n"
         if i < 2:
-            formatted_output += "\n"  # Add line break between flights
+            formatted_output += "\n"  
     return formatted_output
 
-# Example usage:
-# trip_id = 3
-# top_3_flights = get_top_3_fastest_flights(trip_id)
-# print("Top 3 fastest flights for Trip ID", trip_id, ":\n", top_3_flights)
 

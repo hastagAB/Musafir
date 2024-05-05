@@ -60,7 +60,6 @@ def get_top_attractions_by_geocode(geocode, language="en_US", currency="USD"):
         print("Error:", e)
         return None
 
-# Example usage:
 def print_attractions(attractions):
     if attractions:
         print("Top 5 Attractions:")
@@ -73,7 +72,6 @@ def print_attractions(attractions):
     else:
         print("Failed to fetch attractions.")
 
-# Example usage:
 
 def attractions(city:str):
     geo_id = get_geo_id(city)

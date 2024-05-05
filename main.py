@@ -48,7 +48,7 @@ def events(trip_id, content):
     print("Top events for Trip ID", trip_id, ":")
     for event in json_data:
         print("Event Name:", event.get('name', 'N/A'))
-        print("Location:", event.get('type', 'N/A'))
+        print("type:", event.get('type', 'N/A'))
         print("Date:", event.get('price_ranges', 'N/A'))
         print("Description:", event.get('url', 'N/A'))
         print()

@@ -39,7 +39,6 @@ def get_top_5_hotels(data):
             top_hotels.append(hotel_info)
     return top_hotels
 
-# Define parameters
 def Hotels(city, checkin_date, checkout_date):
     geo_id = get_geo_id(city)
     stays_info = search_hotels(geo_id, checkin_date, checkout_date)
