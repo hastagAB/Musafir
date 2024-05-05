@@ -21,15 +21,20 @@ def print_itinerary(trip_data, trip_id, content):
             content.append(Paragraph(f"<b>Traveller Name:</b> {trip.get('Traveller Name', '')}", styles['Normal']))
             content.append(Paragraph(f"<b>Traveling from:</b> {trip.get('Departure City', '')} to {trip.get('Arrival City', '')}", styles['Normal']))
             content.append(Paragraph(f"<b>Travel Dates:</b> {trip.get('Departure Date', '')} to {trip.get('Return Date', '')}", styles['Normal']))
+            print(f"Traveller Name: {trip.get('Traveller Name', '')}")
+            print(f"Traveling from: {trip.get('Departure City', '')} to {trip.get('Arrival City', '')}")
+            print(f"Travel Dates: {trip.get('Departure Date', '')} to {trip.get('Return Date', '')}")
             break
     else:
         content.append(Paragraph(f"No trip found with Trip ID {trip_id}", styles['Normal']))
+        print(f"No trip found with Trip ID {trip_id}")
 
 def buddies(trip_id, content):
     json_data = buddyData(trip_id)
     content.append(Paragraph(f"<b>Buddies for Trip ID {trip_id}:</b>", styles['Heading1']))
     content.append(Paragraph(json_data, styles['Normal']))
-    print("Buddies for Trip ID", trip_id, ":", json_data)
+    print(f"Buddies for Trip ID {trip_id}:")
+    print(json_data)
 
 def events(trip_id, content):
     json_data = get_top_events_for_trip(trip_id)
@@ -62,10 +67,11 @@ def flight(trip_id, content):
     content.append(Paragraph(f"<b>Top 3 fastest flights for Trip ID {trip_id}:</b>", styles['Heading1']))
     if top_flights:
         content.append(Paragraph(str(top_flights), styles['Normal']))
-        print("Top 3 fastest flights for Trip ID", trip_id, ":", top_flights)
+        print(f"Top 3 fastest flights for Trip ID {trip_id}:")
+        print(top_flights)
     else:
         content.append(Paragraph("No flight information available", styles['Normal']))
-        print("No flight information available")
+        print(f"No flight information available for Trip ID {trip_id}")
 
 def topAttractions(city:str, content):
     top_attractions = attractions(city)
@@ -79,8 +85,14 @@ def topAttractions(city:str, content):
                 f"   Description: {attraction['description']}"
             ]
             content.append(Paragraph("<br/>".join(attraction_info), styles['Normal']))
+            print(f"Top Attraction {i} in {city}:")
+            print(f"Name: {attraction.get('name', '')}")
+            print(f"Address: {attraction.get('address', '')}")
+            print(f"Category: {attraction.get('primary_category', '')}")
+            print(f"Description: {attraction.get('description', '')}")
     else:
         content.append(Paragraph("No attraction information available", styles['Normal']))
+        print(f"No attraction information available for {city}")
 
 def topHotels(city, checkin_date, checkout_date, content):
     top_5_hotels = Hotels(city, checkin_date, checkout_date)
@@ -94,8 +106,14 @@ def topHotels(city, checkin_date, checkout_date, content):
                 f"   Price: {hotel['price']}"
             ]
             content.append(Paragraph("<br/>".join(hotel_info), styles['Normal']))
+            print(f"Top Hotel {i} in {city}:")
+            print(f"Title: {hotel.get('title', '')}")
+            print(f"Rating: {hotel.get('rating', '')}")
+            print(f"Provider: {hotel.get('provider', '')}")
+            print(f"Price: {hotel.get('price', '')}")
     else:
         content.append(Paragraph("No hotel information available", styles['Normal']))
+        print(f"No hotel information available for {city}")
 
 if __name__ == "__main__":
     styles = getSampleStyleSheet()
